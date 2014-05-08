@@ -179,6 +179,15 @@ void TimeLabel::changeStyle(QString style)
   this->setStyleSheet(style);
 }
 
+extern C_CPP void getVersion(TPluginVersion *pl)
+{
+  pl->major = _VERS_MAJOR_;
+  pl->minor = _VERS_MINOR_;
+  pl->name = _PL_NAME_;
+  pl->desc = _PL_DESC_;
+  pl->usedPkg = _PL_PKG_;
+}
+
 extern C_CPP void dataUpdate(INT8U *buff, INT32U l)
 {
   tl->dataUpdate(buff, l);

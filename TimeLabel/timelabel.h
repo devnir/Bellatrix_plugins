@@ -4,6 +4,22 @@
 #include <QDialog>
 #include "declare_global.h"
 #include "typedef.h"
+
+#define _VERS_MAJOR_ 1
+#define _VERS_MINOR_ 0
+#define _PL_NAME_ "Time label"
+#define _PL_DESC_ "Plugin for time label control"
+#define _PL_PKG_  "0x01, 0x04, 0xB6, 0xC3"
+
+typedef struct
+{
+  int major;
+  int minor;
+  QString name;
+  QString desc;
+  QString usedPkg;
+}TPluginVersion;
+
 namespace Ui {
   class TimeLabel;
 }
