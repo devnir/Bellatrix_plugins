@@ -8,7 +8,20 @@
 #include <QShowEvent>
 #include <typedef.h>
 
+#define _VERS_MAJOR_ 1
+#define _VERS_MINOR_ 0
+#define _PL_NAME_ "Firmware info"
+#define _PL_DESC_ "Plugin displays version information"
+#define _PL_PKG_  "0x01, 0xC0"
 
+typedef struct
+{
+  int major;
+  int minor;
+  QString name;
+  QString desc;
+  QString usedPkg;
+}TPluginVersion;
 
 namespace Ui {
   class versionForm;

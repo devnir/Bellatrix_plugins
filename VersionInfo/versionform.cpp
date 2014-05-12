@@ -118,3 +118,12 @@ void versionForm::showEvent(QShowEvent *ev)
   memcpy(outBuff, xC0Req, sizeof(xC0Req));
   msgOut(outBuff, sizeof(xC0Req));
 }
+
+extern C_CPP void getVersion(TPluginVersion *pl)
+{
+  pl->major = _VERS_MAJOR_;
+  pl->minor = _VERS_MINOR_;
+  pl->name = _PL_NAME_;
+  pl->desc = _PL_DESC_;
+  pl->usedPkg = _PL_PKG_;
+}
