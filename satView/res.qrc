@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>LogoNVS.png</file>
+    </qresource>
+</RCC>
