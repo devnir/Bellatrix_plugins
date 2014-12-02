@@ -3,6 +3,7 @@
 #include "bufffunctions.h"
 #include "QHeaderView"
 #include "QStringList"
+#include "QColor"
 
 
 Channels *pl;
@@ -25,6 +26,7 @@ typedef struct
   QString measSign;
   QString RMS;
   QString satUse;
+  QColor  color;
 }TCHANNEL_DATA;
 
 QVector<TCHANNEL_DATA> channData;
@@ -118,6 +120,16 @@ void Channels::useX91(INT8U *inBuff, INT32U l)
     INT8U  satSign = load8lu(inBuff + 30 + i * 23);
 
     ch.sys = sysToStr(sys);
+    if((sys & 0x03) == 1)
+      ch.color = QColor(205, 92, 92, 50);
+    else if((sys & 0x03) == 2)
+      ch.color = QColor(99, 184, 255, 50);
+    else if((sys & 0x03) == 3)
+      ch.color = QColor(154, 255, 154, 50);
+    else if((sys & 0x03) == 4)
+      ch.color = QColor(255, 246, 143, 50);
+    else
+      ch.color = QColor(255, 255, 255, 50);
     ch.prn.sprintf("%d", prn);
     ch.freq.sprintf("%+d", freq);
     ch.chState.sprintf("0x%02X", chState);
@@ -177,6 +189,10 @@ void Channels::putDataToTable()
     ui->tableWidget->item(i, 9)->setText(channData.at(i).measSign);
     ui->tableWidget->item(i, 10)->setText(channData.at(i).RMS);
     ui->tableWidget->item(i, 11)->setText(channData.at(i).satUse);
+    for(int j = 0; j < 12; j++)
+    {
+        ui->tableWidget->item(i, j)->setBackgroundColor(channData.at(i).color);
+    }
   }
 }
 
