@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ChannelsControl.ui'
 **
-** Created by: Qt User Interface Compiler version 5.1.1
+** Created by: Qt User Interface Compiler version 5.4.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -43,9 +43,15 @@ public:
         font.setPointSize(10);
         tableWidget->setFont(font);
         tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+        tableWidget->setTabKeyNavigation(false);
+        tableWidget->setProperty("showDropIndicator", QVariant(false));
+        tableWidget->setDragEnabled(true);
+        tableWidget->setDragDropOverwriteMode(false);
         tableWidget->setAlternatingRowColors(true);
         tableWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
         tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableWidget->horizontalHeader()->setCascadingSectionResizes(true);
+        tableWidget->horizontalHeader()->setProperty("showSortIndicator", QVariant(true));
         tableWidget->horizontalHeader()->setStretchLastSection(true);
         tableWidget->verticalHeader()->setStretchLastSection(true);
 

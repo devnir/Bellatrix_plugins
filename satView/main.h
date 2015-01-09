@@ -13,7 +13,7 @@
 #include <QtCore>
 
 #define _VERS_MAJOR_ 1
-#define _VERS_MINOR_ 0
+#define _VERS_MINOR_ 1
 #define _PL_NAME_ "SatView"
 #define _PL_DESC_ "Plugin Description"
 #define _PL_PKG_  "0x01" //Plugin used msg

@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Channels info</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0" columnstretch="0" rowminimumheight="0" columnminimumwidth="0">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0" columnstretch="0">
    <property name="sizeConstraint">
     <enum>QLayout::SetMinAndMaxSize</enum>
    </property>
@@ -43,6 +43,18 @@
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
+     <property name="tabKeyNavigation">
+      <bool>false</bool>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="dragEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="dragDropOverwriteMode">
+      <bool>false</bool>
+     </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
@@ -52,6 +64,12 @@
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+      <bool>true</bool>
+     </attribute>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
      </attribute>

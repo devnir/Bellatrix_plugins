@@ -13,7 +13,7 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QSpinBox>
-
+#include <QVector>
 #include "declare_global.h"
 #include "typedef.h"
 
@@ -32,6 +32,22 @@ typedef struct
   QString usedPkg;
 }TPluginVersion;
 
+typedef struct
+{
+  QString chnl;
+  QString sys;
+  QString prn;
+  QString freq;
+  QString chState;
+  QString snr;
+  QString phase;
+  QString doppler;
+  QString boardTime;
+  QString measSign;
+  QString RMS;
+  QString satUse;
+  QColor  color;
+}TCHANNEL_DATA;
 
 namespace Ui {
   class Channels;
@@ -66,6 +82,8 @@ private:
   signals:
     void signalOkPress(INT8U mode, INT8U signalType, INT8S prn);
 };
+
+bool prefLessThanSNR(const TCHANNEL_DATA &p1, const TCHANNEL_DATA &p2);
 
 
 class Channels : public QDialog

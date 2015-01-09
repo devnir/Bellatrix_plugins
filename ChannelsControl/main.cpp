@@ -6,28 +6,13 @@
 #include "QColor"
 
 
+
 Channels *pl;
 INT32U uid = 0;
 void (*msgOut)(INT8U *buff, INT32U l) = NULL;
 INT8U outBuff[256];
 void (*signalClose)(INT32U) = NULL;
 QString sysToStr(INT8U system);
-
-typedef struct
-{
-  QString sys;
-  QString prn;
-  QString freq;
-  QString chState;
-  QString snr;
-  QString phase;
-  QString doppler;
-  QString boardTime;
-  QString measSign;
-  QString RMS;
-  QString satUse;
-  QColor  color;
-}TCHANNEL_DATA;
 
 QVector<TCHANNEL_DATA> channData;
 
@@ -47,8 +32,10 @@ Channels::Channels(QWidget *parent) :
  // prepareTable(64);
   ui->tableWidget->setColumnCount(12);
   QStringList hg;
-  hg << "#" << "Sys" << "PRN" << "Freq" << "State" << "SNR" << "Phase" << "Doppler" << "Boardtime" << "Meas sign" << "RMS" << "Sat use sign";
+  hg << "#" << "Sys" << "PRN" << "Freq" << "State" << "SNR" << "Phase" << "Doppler" << "Boardtime" << "Meas sign" << "RMS" << "Sat use sign";  
   ui->tableWidget->setHorizontalHeaderLabels(hg);
+  //ui->tableWidget->horizontalHeaderItem(5)->setFlags(ui->tableWidget->horizontalHeaderItem(5)->flags() | Qt::ItemIsUserCheckable);
+
 }
 
 Channels::~Channels()
@@ -92,6 +79,36 @@ void Channels::closeEvent(QCloseEvent *)
   signalClose(uid);
 }
 
+
+bool ascendingSNR(const TCHANNEL_DATA &p1, const TCHANNEL_DATA &p2)
+{
+    return p1.snr >= p2.snr;
+}
+
+bool descendingSNR(const TCHANNEL_DATA &p1, const TCHANNEL_DATA &p2)
+{
+    return p1.snr < p2.snr;
+}
+
+bool ascendingSys(const TCHANNEL_DATA &p1, const TCHANNEL_DATA &p2)
+{
+    return p1.sys >= p2.sys;
+}
+
+bool descendingSys(const TCHANNEL_DATA &p1, const TCHANNEL_DATA &p2)
+{
+    return p1.sys < p2.sys;
+}
+
+bool ascendingPRN(const TCHANNEL_DATA &p1, const TCHANNEL_DATA &p2)
+{
+    return p1.prn >= p2.prn;
+}
+
+bool descendingPRN(const TCHANNEL_DATA &p1, const TCHANNEL_DATA &p2)
+{
+    return p1.prn < p2.prn;
+}
 void Channels::changeStyle(QString style)
 {
   this->setStyleSheet(style);
@@ -130,8 +147,9 @@ void Channels::useX91(INT8U *inBuff, INT32U l)
       ch.color = QColor(255, 246, 143, 50);
     else
       ch.color = QColor(255, 255, 255, 50);
-    ch.prn.sprintf("%d", prn);
-    ch.freq.sprintf("%+d", freq);
+    ch.chnl.sprintf("%d", i + 1);
+    ch.prn.sprintf("%02d", prn);
+    ch.freq.sprintf("%+02d", freq);
     ch.chState.sprintf("0x%02X", chState);
     ch.snr.sprintf("%0.01f", snr/10.);
     ch.phase.sprintf("%0.09f", phase/1e9);
@@ -142,6 +160,31 @@ void Channels::useX91(INT8U *inBuff, INT32U l)
     ch.satUse.sprintf("0x%02X", satSign);
     channData.append(ch);
   }
+  if(ui->tableWidget->horizontalHeader()->sortIndicatorSection() == 1)
+  {
+    if(ui->tableWidget->horizontalHeader()->sortIndicatorOrder() == Qt::AscendingOrder)
+      qSort(channData.begin(), channData.end(), ascendingSys);
+    else
+      qSort(channData.begin(), channData.end(), descendingSys);
+  }
+  else
+  if(ui->tableWidget->horizontalHeader()->sortIndicatorSection() == 2)
+  {
+    if(ui->tableWidget->horizontalHeader()->sortIndicatorOrder() == Qt::AscendingOrder)
+      qSort(channData.begin(), channData.end(), ascendingPRN);
+    else
+      qSort(channData.begin(), channData.end(), descendingPRN);
+  }
+  else
+  if(ui->tableWidget->horizontalHeader()->sortIndicatorSection() == 5)
+  {
+    if(ui->tableWidget->horizontalHeader()->sortIndicatorOrder() == Qt::AscendingOrder)
+      qSort(channData.begin(), channData.end(), ascendingSNR);
+    else
+      qSort(channData.begin(), channData.end(), descendingSNR);
+  }
+
+
   putDataToTable();
 }
 
@@ -177,7 +220,7 @@ void Channels::putDataToTable()
 {
   for(int i = 0; (i < channData.size())&&(i < ui->tableWidget->rowCount()); i++)
   {
-    ui->tableWidget->item(i, 0)->setText(QString("%1").arg(i+1));
+    ui->tableWidget->item(i, 0)->setText(channData.at(i).chnl);
     ui->tableWidget->item(i, 1)->setText(channData.at(i).sys);
     ui->tableWidget->item(i, 2)->setText(channData.at(i).prn);
     ui->tableWidget->item(i, 3)->setText(channData.at(i).freq);

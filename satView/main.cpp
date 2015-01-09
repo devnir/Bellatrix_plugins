@@ -341,6 +341,7 @@ void myItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void myItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+  QRectF r = this->rect();
   setVisible(false);
   update(r);
 }
